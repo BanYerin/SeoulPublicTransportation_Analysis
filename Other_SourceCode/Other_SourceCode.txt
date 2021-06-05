@@ -1,0 +1,149 @@
+●데이터 import
+mongoimport --db project --collection subway --type json --file C:\Users\qoskd\BigDataSystemDesign\example\data\seoulSubway.json --jsonArray
+
+●결손값 삭제
+db.subway.remove({ $or:[
+    {'four_ride_num':  { '$exists': false}},
+    {'four_alright_num': {'$exists': false}},
+    {'five_ride_num': {'$exists': false}},
+    {'five_alright_num': {'$exists': false}},
+    {'six_ride_num': {'$exists': false}},
+    {'six_alright_num': {'$exists': false}},
+    {'seven_ride_num': {'$exists': false}},
+    {'seven_alright_num': {'$exists': false}},
+    {'eight_ride_num': {'$exists': false}},
+    {'eight_alright_num': {'$exists': false}},
+    {'nine_ride_num': {'$exists': false}},
+    {'nine_alight_num': {'$exists': false}},
+    {'ten_ride_num': {'$exists': false}},
+    {'ten_alight_num': {'$exists': false}},
+    {'eleven_ride_num': {'$exists': false}},
+    {'eleven_alight_num': {'$exists': false}},
+    {'twelve_ride_num': {'$exists': false}},
+    {'twelve_alright_num': {'$exists': false}},
+    {'thirteen_ride_num': {'$exists': false}},
+    {'thirteen_alight_num': {'$exists': false}},
+    {'fourteen_ride_num': {'$exists': false}},
+    {'fourteen_alight_num': {'$exists': false}},
+    {'fifteen_ride_num': {'$exists': false}},
+    {'fifteen_alight_num': {'$exists': false}},
+    {'sixteen_ride_num': {'$exists': false}},
+    {'sixteen_alight_num': {'$exists': false}},
+    {'seventeen_ride_num': {'$exists': false}},
+    {'seventeen_alight_num': {'$exists': false}},
+    {'eighteen_ride_num': {'$exists': false}},
+    {'eighteen_alight_num': {'$exists': false}},
+    {'nineteen_ride_num': {'$exists': false}},
+    {'nineteen_alight_num': {'$exists': false}},
+    {'twenty_ride_num': {'$exists': false}},
+    {'twenty_alight_num': {'$exists': false}},
+    {'twenty_one_ride_num': {'$exists': false}},
+    {'twenty_one_alight_num': {'$exists': false}},
+    {'twenty_two_ride_num': {'$exists': false}},
+    {'twenty_two_alight_num': {'$exists': false}},
+    {'twenty_three_ride_num': {'$exists': false}},
+    {'twenty_three_alight_num': {'$exists': false}},
+    {'midnight_ride_num': {'$exists': false}},
+    {'midnight_alight_num': {'$exists': false}},
+    {'one_ride_num': {'$exists': false}},
+    {'one_alright_num': {'$exists': false}},
+    {'two_ride_num': {'$exists': false}},
+    {'two_alright_num': {'$exists': false}},
+    {'three_ride_num': {'$exists': false}},
+    {'three_alright_num': {'$exists': false}}
+] })
+
+●역이름 별로 그룹화->승/하차 인원수 평균->상위 5개 sorting
+-sub_sta_nm: 지하철역
+
+*subway 승차 인원수 평균
+-addFields: 시간대별 승차량 모두 더해 하루 총 승차량 만들어줌
+-group: 지하철역 별로 하루 총 승차량의 평균 내기
+db.subway.aggregate([
+{ $project: {sub_sta_nm:1,  four_ride_num:1, five_ride_num:1, six_ride_num:1, seven_ride_num:1, eight_ride_num:1, nine_ride_num:1, ten_ride_num:1, eleven_ride_num:1, twelve_ride_num:1, thirteen_ride_num:1, fourteen_ride_num:1, fifteen_ride_num:1, sixteen_ride_num:1, seventeen_ride_num:1, eighteen_ride_num:1, nineteen_ride_num:1, twenty_ride_num:1, twenty_one_ride_num:1, twenty_two_ride_num:1, twenty_three_ride_num:1, midnight_ride_num:1, one_ride_num:1, two_ride_num:1, three_ride_num:1} },
+{ $addFields: { totalRide: { $sum: [ "$four_ride_num", "$five_ride_num", "$six_ride_num", "$seven_ride_num", "$eight_ride_num", "$nine_ride_num", "$ten_ride_num", "$eleven_ride_num", "$twelve_ride_num", "$thirteen_ride_num", "$fourteen_ride_num", "$fifteen_ride_num", "$sixteen_ride_num", "$seventeen_ride_num", "$eighteen_ride_num", "$nineteen_ride_num", "$twenty_ride_num", "$twenty_one_ride_num", "$twenty_two_ride_num", "$twenty_three_ride_num", "$midnight_ride_num", "$one_ride_num", "$two_ride_num", "$three_ride_num" ] } } },
+{ $group: { _id: "$sub_sta_nm", avgRide: { $avg: "$totalRide" } } },
+{ $sort: { avgRide:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgRide:1} }
+])
+
+*subway 하차 인원수 평균
+db.subway.aggregate([
+{ $project: {sub_sta_nm:1,  four_alight_num:1, five_alight_num:1, six_alight_num:1, seven_alight_num:1, eight_alight_num:1, nine_alight_num:1, ten_alight_num:1, eleven_alight_num:1, twelve_alight_num:1, thirteen_alight_num:1, fourteen_alight_num:1, fifteen_alight_num:1, sixteen_alight_num:1, seventeen_alight_num:1, eighteen_alight_num:1, nineteen_alight_num:1, twenty_alight_num:1, twenty_one_alight_num:1, twenty_two_alight_num:1, twenty_three_alight_num:1, midnight_alight_num:1, one_alight_num:1, two_alight_num:1, three_alight_num:1} },
+{ $addFields: { totalAlight: { $sum: [ "$four_alight_num", "$five_alight_num", "$six_alight_num", "$seven_alight_num", "$eight_alight_num", "$nine_alight_num", "$ten_alight_num", "$eleven_alight_num", "$twelve_alight_num", "$thirteen_alight_num", "$fourteen_alight_num", "$fifteen_alight_num", "$sixteen_alight_num", "$seventeen_alight_num", "$eighteen_alight_num", "$nineteen_alight_num", "$twenty_alight_num", "$twenty_one_alight_num", "$twenty_two_alight_num", "$twenty_three_alight_num", "$midnight_alight_num", "$one_alight_num", "$two_alight_num", "$three_alight_num" ] } } },
+{ $group: { _id: "$sub_sta_nm", avgAlight: { $avg: "$totalAlight" } } },
+{ $sort: { avgAlight:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgAlight:1} }
+])
+
+●호선별로 그룹화->승/하차 인원수 평균->상위 5개 sorting
+-line_num: 호선명
+
+*subway 호선별 승차 평균
+db.subway.aggregate([
+{ $project: { line_num:1,  four_ride_num:1, five_ride_num:1, six_ride_num:1, seven_ride_num:1, eight_ride_num:1, nine_ride_num:1, ten_ride_num:1, eleven_ride_num:1, twelve_ride_num:1, thirteen_ride_num:1, fourteen_ride_num:1, fifteen_ride_num:1, sixteen_ride_num:1, seventeen_ride_num:1, eighteen_ride_num:1, nineteen_ride_num:1, twenty_ride_num:1, twenty_one_ride_num:1, twenty_two_ride_num:1, twenty_three_ride_num:1, midnight_ride_num:1, one_ride_num:1, two_ride_num:1, three_ride_num:1} },
+{ $addFields: { totalRide: { $sum: [ "$four_ride_num", "$five_ride_num", "$six_ride_num", "$seven_ride_num", "$eight_ride_num", "$nine_ride_num", "$ten_ride_num", "$eleven_ride_num", "$twelve_ride_num", "$thirteen_ride_num", "$fourteen_ride_num", "$fifteen_ride_num", "$sixteen_ride_num", "$seventeen_ride_num", "$eighteen_ride_num", "$nineteen_ride_num", "$twenty_ride_num", "$twenty_one_ride_num", "$twenty_two_ride_num", "$twenty_three_ride_num", "$midnight_ride_num", "$one_ride_num", "$two_ride_num", "$three_ride_num" ] } } },
+{ $group: { _id: "$line_num", avgRide: { $avg: "$totalRide" } } },
+{ $sort: { avgRide:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgRide:1} }
+])
+
+*subway 호선별 하차 평균
+db.subway.aggregate([
+{ $project: {line_num:1,  four_alight_num:1, five_alight_num:1, six_alight_num:1, seven_alight_num:1, eight_alight_num:1, nine_alight_num:1, ten_alight_num:1, eleven_alight_num:1, twelve_alight_num:1, thirteen_alight_num:1, fourteen_alight_num:1, fifteen_alight_num:1, sixteen_alight_num:1, seventeen_alight_num:1, eighteen_alight_num:1, nineteen_alight_num:1, twenty_alight_num:1, twenty_one_alight_num:1, twenty_two_alight_num:1, twenty_three_alight_num:1, midnight_alight_num:1, one_alight_num:1, two_alight_num:1, three_alight_num:1} },
+{ $addFields: { totalAlight: { $sum: [ "$four_alight_num", "$five_alight_num", "$six_alight_num", "$seven_alight_num", "$eight_alight_num", "$nine_alight_num", "$ten_alight_num", "$eleven_alight_num", "$twelve_alight_num", "$thirteen_alight_num", "$fourteen_alight_num", "$fifteen_alight_num", "$sixteen_alight_num", "$seventeen_alight_num", "$eighteen_alight_num", "$nineteen_alight_num", "$twenty_alight_num", "$twenty_one_alight_num", "$twenty_two_alight_num", "$twenty_three_alight_num", "$midnight_alight_num", "$one_alight_num", "$two_alight_num", "$three_alight_num" ] } } },
+{ $group: { _id: "$line_num", avgAlight: { $avg: "$totalAlight" } } },
+{ $sort: { avgAlight:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgAlight:1} }
+])
+
+●실행시간 측정
+*subway 역별 승차 인원수 평균
+db.subway.explain('executionStats').aggregate([
+{ $project: {sub_sta_nm:1,  four_ride_num:1, five_ride_num:1, six_ride_num:1, seven_ride_num:1, eight_ride_num:1, nine_ride_num:1, ten_ride_num:1, eleven_ride_num:1, twelve_ride_num:1, thirteen_ride_num:1, fourteen_ride_num:1, fifteen_ride_num:1, sixteen_ride_num:1, seventeen_ride_num:1, eighteen_ride_num:1, nineteen_ride_num:1, twenty_ride_num:1, twenty_one_ride_num:1, twenty_two_ride_num:1, twenty_three_ride_num:1, midnight_ride_num:1, one_ride_num:1, two_ride_num:1, three_ride_num:1} },
+{ $addFields: { totalRide: { $sum: [ "$four_ride_num", "$five_ride_num", "$six_ride_num", "$seven_ride_num", "$eight_ride_num", "$nine_ride_num", "$ten_ride_num", "$eleven_ride_num", "$twelve_ride_num", "$thirteen_ride_num", "$fourteen_ride_num", "$fifteen_ride_num", "$sixteen_ride_num", "$seventeen_ride_num", "$eighteen_ride_num", "$nineteen_ride_num", "$twenty_ride_num", "$twenty_one_ride_num", "$twenty_two_ride_num", "$twenty_three_ride_num", "$midnight_ride_num", "$one_ride_num", "$two_ride_num", "$three_ride_num" ] } } },
+{ $group: { _id: "$sub_sta_nm", avgRide: { $avg: "$totalRide" } } },
+{ $sort: { avgRide:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgRide:1} }
+])
+
+*subway 역별 하차 인원수 평균
+db.subway.explain('executionStats').aggregate([
+{ $project: {sub_sta_nm:1,  four_alight_num:1, five_alight_num:1, six_alight_num:1, seven_alight_num:1, eight_alight_num:1, nine_alight_num:1, ten_alight_num:1, eleven_alight_num:1, twelve_alight_num:1, thirteen_alight_num:1, fourteen_alight_num:1, fifteen_alight_num:1, sixteen_alight_num:1, seventeen_alight_num:1, eighteen_alight_num:1, nineteen_alight_num:1, twenty_alight_num:1, twenty_one_alight_num:1, twenty_two_alight_num:1, twenty_three_alight_num:1, midnight_alight_num:1, one_alight_num:1, two_alight_num:1, three_alight_num:1} },
+{ $addFields: { totalAlight: { $sum: [ "$four_alight_num", "$five_alight_num", "$six_alight_num", "$seven_alight_num", "$eight_alight_num", "$nine_alight_num", "$ten_alight_num", "$eleven_alight_num", "$twelve_alight_num", "$thirteen_alight_num", "$fourteen_alight_num", "$fifteen_alight_num", "$sixteen_alight_num", "$seventeen_alight_num", "$eighteen_alight_num", "$nineteen_alight_num", "$twenty_alight_num", "$twenty_one_alight_num", "$twenty_two_alight_num", "$twenty_three_alight_num", "$midnight_alight_num", "$one_alight_num", "$two_alight_num", "$three_alight_num" ] } } },
+{ $group: { _id: "$sub_sta_nm", avgAlight: { $avg: "$totalAlight" } } },
+{ $sort: { avgAlight:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgAlight:1} }
+])
+
+*subway 호선별 승차 평균
+db.subway.explain('executionStats').aggregate([
+{ $project: { line_num:1,  four_ride_num:1, five_ride_num:1, six_ride_num:1, seven_ride_num:1, eight_ride_num:1, nine_ride_num:1, ten_ride_num:1, eleven_ride_num:1, twelve_ride_num:1, thirteen_ride_num:1, fourteen_ride_num:1, fifteen_ride_num:1, sixteen_ride_num:1, seventeen_ride_num:1, eighteen_ride_num:1, nineteen_ride_num:1, twenty_ride_num:1, twenty_one_ride_num:1, twenty_two_ride_num:1, twenty_three_ride_num:1, midnight_ride_num:1, one_ride_num:1, two_ride_num:1, three_ride_num:1} },
+{ $addFields: { totalRide: { $sum: [ "$four_ride_num", "$five_ride_num", "$six_ride_num", "$seven_ride_num", "$eight_ride_num", "$nine_ride_num", "$ten_ride_num", "$eleven_ride_num", "$twelve_ride_num", "$thirteen_ride_num", "$fourteen_ride_num", "$fifteen_ride_num", "$sixteen_ride_num", "$seventeen_ride_num", "$eighteen_ride_num", "$nineteen_ride_num", "$twenty_ride_num", "$twenty_one_ride_num", "$twenty_two_ride_num", "$twenty_three_ride_num", "$midnight_ride_num", "$one_ride_num", "$two_ride_num", "$three_ride_num" ] } } },
+{ $group: { _id: "$line_num", avgRide: { $avg: "$totalRide" } } },
+{ $sort: { avgRide:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgRide:1} }
+])
+
+*subway 호선별 하차 평균 
+db.subway.explain('executionStats').aggregate([
+{ $project: {line_num:1,  four_alight_num:1, five_alight_num:1, six_alight_num:1, seven_alight_num:1, eight_alight_num:1, nine_alight_num:1, ten_alight_num:1, eleven_alight_num:1, twelve_alight_num:1, thirteen_alight_num:1, fourteen_alight_num:1, fifteen_alight_num:1, sixteen_alight_num:1, seventeen_alight_num:1, eighteen_alight_num:1, nineteen_alight_num:1, twenty_alight_num:1, twenty_one_alight_num:1, twenty_two_alight_num:1, twenty_three_alight_num:1, midnight_alight_num:1, one_alight_num:1, two_alight_num:1, three_alight_num:1} },
+{ $addFields: { totalAlight: { $sum: [ "$four_alight_num", "$five_alight_num", "$six_alight_num", "$seven_alight_num", "$eight_alight_num", "$nine_alight_num", "$ten_alight_num", "$eleven_alight_num", "$twelve_alight_num", "$thirteen_alight_num", "$fourteen_alight_num", "$fifteen_alight_num", "$sixteen_alight_num", "$seventeen_alight_num", "$eighteen_alight_num", "$nineteen_alight_num", "$twenty_alight_num", "$twenty_one_alight_num", "$twenty_two_alight_num", "$twenty_three_alight_num", "$midnight_alight_num", "$one_alight_num", "$two_alight_num", "$three_alight_num" ] } } },
+{ $group: { _id: "$line_num", avgAlight: { $avg: "$totalAlight" } } },
+{ $sort: { avgAlight:-1} },
+{ $limit:5 },
+{ $project: { _id:1, avgAlight:1} }
+])
+
+●인덱싱
+db.subway.createIndex({sub_sta_nm:1})
+db.subway.createIndex({line_num:1})
+
+
