@@ -884,3 +884,74 @@ db.bus.explain("executionStats").aggregate([
 
 ])
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<레플리카셋 구성하는 커맨드 및 쿼리>
+
+*1. 1번째 cmd를 관리자 권한으로 실행
+cd C:\Program Files\MongoDB\Server\4.4\bin
+
+mongod --dbpath "C:\Program Files\MongoDB\Server\4.4\data" --logpath "C:\Program Files\MongoDB\Server\4.4\log\mongod.log" --port 27017 --storageEngine=wiredTiger --journal --replSet bigDataProject
+
+
+*2. 2번째 cmd를 관리자 권한으로 실행
+mongo --port 27017
+
+show dbs
+
+rsconf = { _id:"bigDataProject", members:[ { _id:0, host:"localhost:27017" } ] }
+
+rs.initiate(rsconf)
+
+show dbs
+
+
+*3. 3번째 cmd를 관리자 권한으로 실행
+cd C:\Program Files\MongoDB\Server\4.4\bin
+
+mongod --dbpath "C:\bigData_project_replication\data1\db" --logpath "C:\bigData_project_replication\data1\log\mongod.log" --port 27020 --storageEngine=wiredTiger --journal --replSet bigDataProject
+
+
+*4. 4번째 cmd를 관리자 권한으로 실행
+cd C:\Program Files\MongoDB\Server\4.4\bin
+
+mongod --dbpath "C:\bigData_project_replication\data2\db" --logpath "C:\bigData_project_replication\data2\log\mongod.log" --port 27021 --storageEngine=wiredTiger --journal --replSet bigDataProject
+
+
+*5. 열어둔 2번째 cmd로 돌아와서 실행
+rs.add("localhost:27020")
+
+rs.add("localhost:27021")
+
+rs.status()
+
+show dbs
+
+rs.isMaster()
+
+
+*6. 5번째 cmd를 관리자 권한으로 실행
+mongo --port 27020
+
+rs.slaveOk()
+
+rs.secondaryOk()
+
+show dbs
+
+rs.isMaster()
+
+
+*7. 6번째 cmd를 관리자 권한으로 실행
+mongo --port 27021
+
+rs.slaveOk()
+
+rs.secondaryOk()
+
+show dbs
+
+rs.isMaster()
+
+
+
