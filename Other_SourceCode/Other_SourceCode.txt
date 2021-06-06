@@ -207,6 +207,340 @@ db.subway.remove( { twenty_three_alight_num : null } )
 db.subway.remove( { twenty_three_alight_num : { $exists : false } } )
 
 
+●Aggregation을 이용한 검색 쿼리
+*버스 데이터 - 시간대별 승차 쿼리
+db.bus.aggregate([
+    {"$project": {"_id": 0, "midnight_ride_num": 1, "one_ride_num": 1, "two_ride_num": 1, "three_ride_num": 1,
+                  "four_ride_num": 1, "five_ride_num": 1, "six_ride_num": 1, "seven_ride_num": 1,
+                  "eight_ride_num": 1, "nine_ride_num": 1, "ten_ride_num": 1, "eleven_ride_num": 1,
+                  "twelve_ride_num": 1, "thirteen_ride_num": 1, "fourteen_ride_num": 1, "fifteen_ride_num": 1,
+                  "sixteen_ride_num": 1, "seventeen_ride_num": 1, "eighteen_ride_num": 1, "nineteen_ride_num": 1,
+                  "twenty_ride_num": 1, "twenty_one_ride_num": 1, "twenty_two_ride_num": 1, "twenty_three_ride_num": 1}},
+    {"$group":
+             {
+                 "_id": "null",
+                 "midnight_ride_num": {"$avg": "$midnight_ride_num"},
+                 "one_ride_num": {"$avg": "$one_ride_num"},
+                 "two_ride_num": {"$avg": "$two_ride_num"},
+                 "three_ride_num": {"$avg": "$three_ride_num"},
+                 "four_ride_num": {"$avg": "$four_ride_num"},
+                 "five_ride_num": {"$avg": "$five_ride_num"},
+                 "six_ride_num": {"$avg": "$six_ride_num"},
+                 "seven_ride_num": {"$avg": "$seven_ride_num"},
+                 "eight_ride_num": {"$avg": "$eight_ride_num"},
+                 "nine_ride_num": {"$avg": "$nine_ride_num"},
+                 "ten_ride_num": {"$avg": "$ten_ride_num"},
+                 "eleven_ride_num": {"$avg": "$eleven_ride_num"},
+                 "twelve_ride_num": {"$avg": "$twelve_ride_num"},
+                 "thirteen_ride_num": {"$avg": "$thirteen_ride_num"},
+                 "fourteen_ride_num": {"$avg": "$fourteen_ride_num"},
+                 "fifteen_ride_num": {"$avg": "$fifteen_ride_num"},
+                 "sixteen_ride_num": {"$avg": "$sixteen_ride_num"},
+                 "seventeen_ride_num": {"$avg": "$seventeen_ride_num"},
+                 "eighteen_ride_num": {"$avg": "$eighteen_ride_num"},
+                 "nineteen_ride_num": {"$avg": "$nineteen_ride_num"},
+                 "twenty_ride_num": {"$avg": "$twenty_ride_num"},
+                 "twenty_one_ride_num": {"$avg": "$twenty_one_ride_num"},
+                 "twenty_two_ride_num": {"$avg": "$twenty_two_ride_num"},
+                 "twenty_three_ride_num": {"$avg": "$twenty_three_ridet_num"}
+             }
+    }
+])
+
+*버스 데이터 - 시간대별 하차 쿼리
+db.bus.aggregate([
+    {"$project": {"_id": 0, "midnight_alight_num": 1, "one_alight_num": 1, "two_alight_num": 1, "three_alight_num": 1,
+                  "four_alight_num": 1, "five_alight_num": 1, "six_alight_num": 1, "seven_alight_num": 1,
+                  "eight_alight_num": 1, "nine_alight_num": 1, "ten_alight_num": 1, "eleven_alight_num": 1,
+                  "twelve_alight_num": 1, "thirteen_alight_num": 1, "fourteen_alight_num": 1, "fifteen_alight_num": 1,
+                  "sixteen_alight_num": 1, "seventeen_alight_num": 1, "eighteen_alight_num": 1, "nineteen_alight_num": 1,
+                  "twenty_alight_num": 1, "twenty_one_alight_num": 1, "twenty_two_alight_num": 1, "twenty_three_alight_num": 1}},
+    {"$group":
+             {
+                 "_id": "null",
+                 "midnight_alight_num": {"$avg": "$midnight_alight_num"},
+                 "one_alight_num": {"$avg": "$one_alight_num"},
+                 "two_alight_num": {"$avg": "$two_alight_num"},
+                 "three_alight_num": {"$avg": "$three_alight_num"},
+                 "four_alight_num": {"$avg": "$four_alight_num"},
+                 "five_alight_num": {"$avg": "$five_alight_num"},
+                 "six_alight_num": {"$avg": "$six_alight_num"},
+                 "seven_alight_num": {"$avg": "$seven_alight_num"},
+                 "eight_alight_num": {"$avg": "$eight_alight_num"},
+                 "nine_alight_num": {"$avg": "$nine_alight_num"},
+                 "ten_alight_num": {"$avg": "$ten_alight_num"},
+                 "eleven_alight_num": {"$avg": "$eleven_alight_num"},
+                 "twelve_alight_num": {"$avg": "$twelve_alight_num"},
+                 "thirteen_alight_num": {"$avg": "$thirteen_alight_num"},
+                 "fourteen_alight_num": {"$avg": "$fourteen_alight_num"},
+                 "fifteen_alight_num": {"$avg": "$fifteen_alight_num"},
+                 "sixteen_alight_num": {"$avg": "$sixteen_alight_num"},
+                 "seventeen_alight_num": {"$avg": "$seventeen_alight_num"},
+                 "eighteen_alight_num": {"$avg": "$eighteen_alight_num"},
+                 "nineteen_alight_num": {"$avg": "$nineteen_alight_num"},
+                 "twenty_alight_num": {"$avg": "$twenty_alight_num"},
+                 "twenty_one_alight_num": {"$avg": "$twenty_one_alight_num"},
+                 "twenty_two_alight_num": {"$avg": "$twenty_two_alight_num"},
+                 "twenty_three_alight_num": {"$avg": "$twenty_three_alight_num"}
+             }
+    }
+])
+
+*지하철 데이터 - 시간대별 승차 쿼리
+db.subway.aggregate([
+    {"$project": {"_id": 0, "midnight_ride_num": 1, "one_ride_num": 1, "two_ride_num": 1, "three_ride_num": 1,
+                  "four_ride_num": 1, "five_ride_num": 1, "six_ride_num": 1, "seven_ride_num": 1,
+                  "eight_ride_num": 1, "nine_ride_num": 1, "ten_ride_num": 1, "eleven_ride_num": 1,
+                  "twelve_ride_num": 1, "thirteen_ride_num": 1, "fourteen_ride_num": 1, "fifteen_ride_num": 1,
+                  "sixteen_ride_num": 1, "seventeen_ride_num": 1, "eighteen_ride_num": 1, "nineteen_ride_num": 1,
+                  "twenty_ride_num": 1, "twenty_one_ride_num": 1, "twenty_two_ride_num": 1, "twenty_three_ride_num": 1}},
+    {"$group":
+             {
+                 "_id": "null",
+                 "midnight_ride_num": {"$avg": "$midnight_ride_num"},
+                 "one_ride_num": {"$avg": "$one_ride_num"},
+                 "two_ride_num": {"$avg": "$two_ride_num"},
+                 "three_ride_num": {"$avg": "$three_ride_num"},
+                 "four_ride_num": {"$avg": "$four_ride_num"},
+                 "five_ride_num": {"$avg": "$five_ride_num"},
+                 "six_ride_num": {"$avg": "$six_ride_num"},
+                 "seven_ride_num": {"$avg": "$seven_ride_num"},
+                 "eight_ride_num": {"$avg": "$eight_ride_num"},
+                 "nine_ride_num": {"$avg": "$nine_ride_num"},
+                 "ten_ride_num": {"$avg": "$ten_ride_num"},
+                 "eleven_ride_num": {"$avg": "$eleven_ride_num"},
+                 "twelve_ride_num": {"$avg": "$twelve_ride_num"},
+                 "thirteen_ride_num": {"$avg": "$thirteen_ride_num"},
+                 "fourteen_ride_num": {"$avg": "$fourteen_ride_num"},
+                 "fifteen_ride_num": {"$avg": "$fifteen_ride_num"},
+                 "sixteen_ride_num": {"$avg": "$sixteen_ride_num"},
+                 "seventeen_ride_num": {"$avg": "$seventeen_ride_num"},
+                 "eighteen_ride_num": {"$avg": "$eighteen_ride_num"},
+                 "nineteen_ride_num": {"$avg": "$nineteen_ride_num"},
+                 "twenty_ride_num": {"$avg": "$twenty_ride_num"},
+                 "twenty_one_ride_num": {"$avg": "$twenty_one_ride_num"},
+                 "twenty_two_ride_num": {"$avg": "$twenty_two_ride_num"},
+                 "twenty_three_ride_num": {"$avg": "$twenty_three_ridet_num"}
+             }
+    }
+])
+
+*지하철 데이터 - 시간대별 하차 쿼리
+db.subway.aggregate([
+    {"$project": {"_id": 0, "midnight_alight_num": 1, "one_alight_num": 1, "two_alight_num": 1, "three_alight_num": 1,
+                  "four_alight_num": 1, "five_alight_num": 1, "six_alight_num": 1, "seven_alight_num": 1,
+                  "eight_alight_num": 1, "nine_alight_num": 1, "ten_alight_num": 1, "eleven_alight_num": 1,
+                  "twelve_alight_num": 1, "thirteen_alight_num": 1, "fourteen_alight_num": 1, "fifteen_alight_num": 1,
+                  "sixteen_alight_num": 1, "seventeen_alight_num": 1, "eighteen_alight_num": 1, "nineteen_alight_num": 1,
+                  "twenty_alight_num": 1, "twenty_one_alight_num": 1, "twenty_two_alight_num": 1, "twenty_three_alight_num": 1}},
+    {"$group":
+             {
+                 "_id": "null",
+                 "midnight_alight_num": {"$avg": "$midnight_alight_num"},
+                 "one_alight_num": {"$avg": "$one_alight_num"},
+                 "two_alight_num": {"$avg": "$two_alight_num"},
+                 "three_alight_num": {"$avg": "$three_alight_num"},
+                 "four_alight_num": {"$avg": "$four_alight_num"},
+                 "five_alight_num": {"$avg": "$five_alight_num"},
+                 "six_alight_num": {"$avg": "$six_alight_num"},
+                 "seven_alight_num": {"$avg": "$seven_alight_num"},
+                 "eight_alight_num": {"$avg": "$eight_alight_num"},
+                 "nine_alight_num": {"$avg": "$nine_alight_num"},
+                 "ten_alight_num": {"$avg": "$ten_alight_num"},
+                 "eleven_alight_num": {"$avg": "$eleven_alight_num"},
+                 "twelve_alight_num": {"$avg": "$twelve_alight_num"},
+                 "thirteen_alight_num": {"$avg": "$thirteen_alight_num"},
+                 "fourteen_alight_num": {"$avg": "$fourteen_alight_num"},
+                 "fifteen_alight_num": {"$avg": "$fifteen_alight_num"},
+                 "sixteen_alight_num": {"$avg": "$sixteen_alight_num"},
+                 "seventeen_alight_num": {"$avg": "$seventeen_alight_num"},
+                 "eighteen_alight_num": {"$avg": "$eighteen_alight_num"},
+                 "nineteen_alight_num": {"$avg": "$nineteen_alight_num"},
+                 "twenty_alight_num": {"$avg": "$twenty_alight_num"},
+                 "twenty_one_alight_num": {"$avg": "$twenty_one_alight_num"},
+                 "twenty_two_alight_num": {"$avg": "$twenty_two_alight_num"},
+                 "twenty_three_alight_num": {"$avg": "$twenty_three_alight_num"}
+             }
+    }
+])
+
+*버스 데이터 - 정류장별 승차 쿼리
+db.bus.aggregate([
+    {"$group":
+             {
+                 "_id": "$bus_sta_nm",
+                 "midnight_ride_num": {"$avg": "$midnight_ride_num"},
+                 "one_ride_num": {"$avg": "$one_ride_num"},
+                 "two_ride_num": {"$avg": "$two_ride_num"},
+                 "three_ride_num": {"$avg": "$three_ride_num"},
+                 "four_ride_num": {"$avg": "$four_ride_num"},
+                 "five_ride_num": {"$avg": "$five_ride_num"},
+                 "six_ride_num": {"$avg": "$six_ride_num"},
+                 "seven_ride_num": {"$avg": "$seven_ride_num"},
+                 "eight_ride_num": {"$avg": "$eight_ride_num"},
+                 "nine_ride_num": {"$avg": "$nine_ride_num"},
+                 "ten_ride_num": {"$avg": "$ten_ride_num"},
+                 "eleven_ride_num": {"$avg": "$eleven_ride_num"},
+                 "twelve_ride_num": {"$avg": "$twelve_ride_num"},
+                 "thirteen_ride_num": {"$avg": "$thirteen_ride_num"},
+                 "fourteen_ride_num": {"$avg": "$fourteen_ride_num"},
+                 "fifteen_ride_num": {"$avg": "$fifteen_ride_num"},
+                 "sixteen_ride_num": {"$avg": "$sixteen_ride_num"},
+                 "seventeen_ride_num": {"$avg": "$seventeen_ride_num"},
+                 "eighteen_ride_num": {"$avg": "$eighteen_ride_num"},
+                 "nineteen_ride_num": {"$avg": "$nineteen_ride_num"},
+                 "twenty_ride_num": {"$avg": "$twenty_ride_num"},
+                 "twenty_one_ride_num": {"$avg": "$twenty_one_ride_num"},
+                 "twenty_two_ride_num": {"$avg": "$twenty_two_ride_num"},
+                 "twenty_three_ride_num": {"$avg": "$twenty_three_ride_num"}
+             }
+    },
+    {"$project": {"_id": 1,
+                  "rideNum": {"$add": ["$midnight_ride_num", "$one_ride_num", "$two_ride_num", "$three_ride_num",
+                                      "$four_ride_num", "$five_ride_num", "$six_ride_num", "$seven_ride_num",
+                                      "$eight_ride_num", "$nine_ride_num", "$ten_ride_num", "$eleven_ride_num",
+                                      "$twelve_ride_num", "$thirteen_ride_num", "$fourteen_ride_num",
+                                      "$fifteen_ride_num", "$sixteen_ride_num", "$seventeen_ride_num",
+                                      "$eighteen_ride_num", "$nineteen_ride_num", "$twenty_ride_num",
+                                      "$twenty_one_ride_num", "$twenty_two_ride_num", "$twenty_three_ride_num"]}}},
+    {"$sort": {"rideNum": -1}},
+    {"$limit": 5}
+
+])
+
+*버스 데이터 - 정류장별 하차 쿼리
+db.bus.aggregate([
+    {"$group":
+             {
+                 "_id": "$bus_sta_nm",
+                 "midnight_alight_num": {"$avg": "$midnight_alight_num"},
+                 "one_alight_num": {"$avg": "$one_alight_num"},
+                 "two_alight_num": {"$avg": "$two_alight_num"},
+                 "three_alight_num": {"$avg": "$three_alight_num"},
+                 "four_alight_num": {"$avg": "$four_alight_num"},
+                 "five_alight_num": {"$avg": "$five_alight_num"},
+                 "six_alight_num": {"$avg": "$six_alight_num"},
+                 "seven_alight_num": {"$avg": "$seven_alight_num"},
+                 "eight_alight_num": {"$avg": "$eight_alight_num"},
+                 "nine_alight_num": {"$avg": "$nine_alight_num"},
+                 "ten_alight_num": {"$avg": "$ten_alight_num"},
+                 "eleven_alight_num": {"$avg": "$eleven_alight_num"},
+                 "twelve_alight_num": {"$avg": "$twelve_alight_num"},
+                 "thirteen_alight_num": {"$avg": "$thirteen_alight_num"},
+                 "fourteen_alight_num": {"$avg": "$fourteen_alight_num"},
+                 "fifteen_alight_num": {"$avg": "$fifteen_alight_num"},
+                 "sixteen_alight_num": {"$avg": "$sixteen_alight_num"},
+                 "seventeen_alight_num": {"$avg": "$seventeen_alight_num"},
+                 "eighteen_alight_num": {"$avg": "$eighteen_alight_num"},
+                 "nineteen_alight_num": {"$avg": "$nineteen_alight_num"},
+                 "twenty_alight_num": {"$avg": "$twenty_alight_num"},
+                 "twenty_one_alight_num": {"$avg": "$twenty_one_alight_num"},
+                 "twenty_two_alight_num": {"$avg": "$twenty_two_alight_num"},
+                 "twenty_three_alight_num": {"$avg": "$twenty_three_alight_num"}
+             }
+    },
+    {"$project": {"_id": 1,
+                  "alightNum": {"$add": ["$midnight_alight_num", "$one_alight_num", "$two_alight_num", "$three_alight_num",
+                                      "$four_alight_num", "$five_alight_num", "$six_alight_num", "$seven_alight_num",
+                                      "$eight_alight_num", "$nine_alight_num", "$ten_alight_num", "$eleven_alight_num",
+                                      "$twelve_alight_num", "$thirteen_alight_num", "$fourteen_alight_num",
+                                      "$fifteen_alight_num", "$sixteen_alight_num", "$seventeen_alight_num",
+                                      "$eighteen_alight_num", "$nineteen_alight_num", "$twenty_alight_num",
+                                      "$twenty_one_alight_num", "$twenty_two_alight_num", "$twenty_three_alight_num"]}}},
+    {"$sort": {"alightNum": -1}},
+    {"$limit": 5}
+
+])
+
+*버스 데이터 - 노선 번호별 승차 쿼리
+db.bus.aggregate([
+    {"$group":
+             {
+                 "_id": "$bus_route_no",
+                 "midnight_ride_num": {"$avg": "$midnight_ride_num"},
+                 "one_ride_num": {"$avg": "$one_ride_num"},
+                 "two_ride_num": {"$avg": "$two_ride_num"},
+                 "three_ride_num": {"$avg": "$three_ride_num"},
+                 "four_ride_num": {"$avg": "$four_ride_num"},
+                 "five_ride_num": {"$avg": "$five_ride_num"},
+                 "six_ride_num": {"$avg": "$six_ride_num"},
+                 "seven_ride_num": {"$avg": "$seven_ride_num"},
+                 "eight_ride_num": {"$avg": "$eight_ride_num"},
+                 "nine_ride_num": {"$avg": "$nine_ride_num"},
+                 "ten_ride_num": {"$avg": "$ten_ride_num"},
+                 "eleven_ride_num": {"$avg": "$eleven_ride_num"},
+                 "twelve_ride_num": {"$avg": "$twelve_ride_num"},
+                 "thirteen_ride_num": {"$avg": "$thirteen_ride_num"},
+                 "fourteen_ride_num": {"$avg": "$fourteen_ride_num"},
+                 "fifteen_ride_num": {"$avg": "$fifteen_ride_num"},
+                 "sixteen_ride_num": {"$avg": "$sixteen_ride_num"},
+                 "seventeen_ride_num": {"$avg": "$seventeen_ride_num"},
+                 "eighteen_ride_num": {"$avg": "$eighteen_ride_num"},
+                 "nineteen_ride_num": {"$avg": "$nineteen_ride_num"},
+                 "twenty_ride_num": {"$avg": "$twenty_ride_num"},
+                 "twenty_one_ride_num": {"$avg": "$twenty_one_ride_num"},
+                 "twenty_two_ride_num": {"$avg": "$twenty_two_ride_num"},
+                 "twenty_three_ride_num": {"$avg": "$twenty_three_ride_num"}
+             }
+    },
+    {"$project": {"_id": 1,
+                  "rideNum": {"$add": ["$midnight_ride_num", "$one_ride_num", "$two_ride_num", "$three_ride_num",
+                                      "$four_ride_num", "$five_ride_num", "$six_ride_num", "$seven_ride_num",
+                                      "$eight_ride_num", "$nine_ride_num", "$ten_ride_num", "$eleven_ride_num",
+                                      "$twelve_ride_num", "$thirteen_ride_num", "$fourteen_ride_num",
+                                      "$fifteen_ride_num", "$sixteen_ride_num", "$seventeen_ride_num",
+                                      "$eighteen_ride_num", "$nineteen_ride_num", "$twenty_ride_num",
+                                      "$twenty_one_ride_num", "$twenty_two_ride_num", "$twenty_three_ride_num"]}}},
+    {"$sort": {"rideNum": -1}},
+    {"$limit": 5}
+
+])
+
+*버스 데이터 - 노선 번호별 하차 쿼리
+db.bus.aggregate([
+    {"$group":
+             {
+                 "_id": "$bus_route_no",
+                 "midnight_alight_num": {"$avg": "$midnight_alight_num"},
+                 "one_alight_num": {"$avg": "$one_alight_num"},
+                 "two_alight_num": {"$avg": "$two_alight_num"},
+                 "three_alight_num": {"$avg": "$three_alight_num"},
+                 "four_alight_num": {"$avg": "$four_alight_num"},
+                 "five_alight_num": {"$avg": "$five_alight_num"},
+                 "six_alight_num": {"$avg": "$six_alight_num"},
+                 "seven_alight_num": {"$avg": "$seven_alight_num"},
+                 "eight_alight_num": {"$avg": "$eight_alight_num"},
+                 "nine_alight_num": {"$avg": "$nine_alight_num"},
+                 "ten_alight_num": {"$avg": "$ten_alight_num"},
+                 "eleven_alight_num": {"$avg": "$eleven_alight_num"},
+                 "twelve_alight_num": {"$avg": "$twelve_alight_num"},
+                 "thirteen_alight_num": {"$avg": "$thirteen_alight_num"},
+                 "fourteen_alight_num": {"$avg": "$fourteen_alight_num"},
+                 "fifteen_alight_num": {"$avg": "$fifteen_alight_num"},
+                 "sixteen_alight_num": {"$avg": "$sixteen_alight_num"},
+                 "seventeen_alight_num": {"$avg": "$seventeen_alight_num"},
+                 "eighteen_alight_num": {"$avg": "$eighteen_alight_num"},
+                 "nineteen_alight_num": {"$avg": "$nineteen_alight_num"},
+                 "twenty_alight_num": {"$avg": "$twenty_alight_num"},
+                 "twenty_one_alight_num": {"$avg": "$twenty_one_alight_num"},
+                 "twenty_two_alight_num": {"$avg": "$twenty_two_alight_num"},
+                 "twenty_three_alight_num": {"$avg": "$twenty_three_alight_num"}
+             }
+    },
+    {"$project": {"_id": 1,
+                  "alightNum": {"$add": ["$midnight_alight_num", "$one_alight_num", "$two_alight_num", "$three_alight_num",
+                                      "$four_alight_num", "$five_alight_num", "$six_alight_num", "$seven_alight_num",
+                                      "$eight_alight_num", "$nine_alight_num", "$ten_alight_num", "$eleven_alight_num",
+                                      "$twelve_alight_num", "$thirteen_alight_num", "$fourteen_alight_num",
+                                      "$fifteen_alight_num", "$sixteen_alight_num", "$seventeen_alight_num",
+                                      "$eighteen_alight_num", "$nineteen_alight_num", "$twenty_alight_num",
+                                      "$twenty_one_alight_num", "$twenty_two_alight_num", "$twenty_three_alight_num"]}}},
+    {"$sort": {"alightNum": -1}},
+    {"$limit": 5}
+
+])
+
+
 ●인덱싱으로 최적화하는 쿼리
 *버스 노선번호 필드 및 정류장명 필드에 대한 인덱싱
 db.bus.createIndex( { bus_route_no: 1 } )
@@ -375,7 +709,7 @@ db.subway.explain("executionStats").aggregate([
 ])
 
 *버스 데이터 - 정류장별 승차 쿼리
-db.subway.explain("executionStats").aggregate([
+db.bus.explain("executionStats").aggregate([
     {"$group":
              {
                  "_id": "$bus_sta_nm",
@@ -419,7 +753,7 @@ db.subway.explain("executionStats").aggregate([
 ])
 
 *버스 데이터 - 정류장별 하차 쿼리
-db.subway.explain("executionStats").aggregate([
+db.bus.explain("executionStats").aggregate([
     {"$group":
              {
                  "_id": "$bus_sta_nm",
@@ -463,7 +797,7 @@ db.subway.explain("executionStats").aggregate([
 ])
 
 *버스 데이터 - 노선 번호별 승차 쿼리
-db.subway.explain("executionStats").aggregate([
+db.bus.explain("executionStats").aggregate([
     {"$group":
              {
                  "_id": "$bus_route_no",
@@ -507,7 +841,7 @@ db.subway.explain("executionStats").aggregate([
 ])
 
 *버스 데이터 - 노선 번호별 하차 쿼리
-db.subway.explain("executionStats").aggregate([
+db.bus.explain("executionStats").aggregate([
     {"$group":
              {
                  "_id": "$bus_route_no",
@@ -549,5 +883,4 @@ db.subway.explain("executionStats").aggregate([
     {"$limit": 5}
 
 ])
-
 
