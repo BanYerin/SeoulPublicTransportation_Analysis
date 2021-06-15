@@ -1,0 +1,30 @@
+*Aggregation Pipeline Stages 공부
+
+MongoDB의 Aggegation Framework는 데이터 처리 파이프라인의 개념을 모델로 한다.
+문서는 여러 단계의 파이프라인을 거쳐 변화하고 하나의 문서의 형태로 집계할 수 있다.
+
+Pipeline : 이전 단계의 연산결과를 다음 단계연산에 이용하는 것.
+
+1. $match : 조건에 만족하는 Document만 Filtering
+
+2. $group : Document에 대한 Grouping 연산을 수행. Group에 대한 id를 지정해야하고, 특정 필드에 대한 집계 연산이 가능. $group은 연산된 Document에 대한 정렬을 지원하지 않음.
+-$avg : 숫자 값의 평균을 반환. 숫자가 아닌 값을 무시.
+-$addToSet : id로 Grouping한 데이터를 중복되지 않은 Set의 형태로 저장
+
+3. $project : project에서 지정한 필드 값을 다음 파이프라인 단계로 전달. RDB(관계형 데이터베이스)의 select와 같은 역할. field 0은 해당 필드를 안 보여준다는 뜻이고, field 1은 해당 필드는 보여준다는 뜻이다.
+
+4. $limit : 파이프라인 연산으로 출력된 document의 개수를 제한.
+
+5. $unwind : document내의 배열 필드를 기반으로 각각의 document로 분리.
+
+6. $sort : 정렬기능. 1은 오름차순, -1은 내림차순.
+---------------------------------------------------
+시간대별 버스 승차 인원을 보여줄 것이다.
+정류장별 승차 인원을 큰 순으로 정렬하여 상위 5개만 뽑아야 한다.
+seoulBus.json 파일을 보면 midnight_ride_num ~ twenty_three_ride_num의 시간까지 사람들의 수가 나온다. $avg를 사용해서 각 시간에 해당하는 사람들 수의 평균을 구한다.
+
+각 정류장을 각 시간에 사용한 사람들의 수를 구해, 최대 5개의 정류장만 구해야 한다.
+$group을 사용하려면 group에 대한 id를 정해야 한다. seoulBus.json파일에 보면 정류장 이름은 "bus_sta_nm"이다. 
+$project를 사용해서 id의 해당 필드를 보여주고, 각 시간 해당 정류장을 사용한 사람들의 수를 더해 time_ride_num에 id로 Grouping한 데이터를 중복되지 않은 set의 형태로 저장
+$sort를 사용해 높은순서대로 보여줘야하므로 -1사용.
+$limit를 사용해 5개의 데이터만 보여줌.
