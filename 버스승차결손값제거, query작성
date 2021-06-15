@@ -1,0 +1,134 @@
+1. mongoimport
+mongoimport --db project --collection bus --type json --file C:\Users\SAMSUNG\Desktop\seoulBus.json --jsonArray
+
+2. mongo
+
+3. use project -> switched to db project
+
+4. 버스 승차 인원수 필드에 대한 결손값 제거:
+db.bus.remove( { midnight_ride_num : null } )
+db.bus.remove( { midnight_ride_num : { $exists : false } } )
+db.bus.remove( { one_ride_num : null } )
+db.bus.remove( { one_ride_num : { $exists : false } } )
+db.bus.remove( { two_ride_num : null } )
+db.bus.remove( { two_ride_num : { $exists : false } } )
+db.bus.remove( { three_ride_num : null } )
+db.bus.remove( { three_ride_num : { $exists : false } } )
+db.bus.remove( { four_ride_num : null } )
+db.bus.remove( { four_ride_num : { $exists : false } } )
+db.bus.remove( { five_ride_num : null } )
+db.bus.remove( { five_ride_num : { $exists : false } } )
+db.bus.remove( { six_ride_num : null } )
+db.bus.remove( { six_ride_num : { $exists : false } } )
+db.bus.remove( { seven_ride_num : null } )
+db.bus.remove( { seven_ride_num : { $exists : false } } )
+db.bus.remove( { eight_ride_num : null } )
+db.bus.remove( { eight_ride_num : { $exists : false } } )
+db.bus.remove( { nine_ride_num : null } )
+db.bus.remove( { nine_ride_num : { $exists : false } } )
+db.bus.remove( { ten_ride_num : null } )
+db.bus.remove( { ten_ride_num : { $exists : false } } )
+db.bus.remove( { eleven_ride_num : null } )
+db.bus.remove( { eleven_ride_num : { $exists : false } } )
+db.bus.remove( { twelve_ride_num : null } )
+db.bus.remove( { twelve_ride_num : { $exists : false } } )
+db.bus.remove( { thirteen_ride_num : null } )
+db.bus.remove( { thirteen_ride_num : { $exists : false } } )
+db.bus.remove( { fourteen_ride_num : null } )
+db.bus.remove( { fourteen_ride_num : { $exists : false } } )
+db.bus.remove( { fifteen_ride_num : null } )
+db.bus.remove( { fifteen_ride_num : { $exists : false } } )
+db.bus.remove( { sixteen_ride_num : null } )
+db.bus.remove( { sixteen_ride_num : { $exists : false } } )
+db.bus.remove( { seventeen_ride_num : null } )
+db.bus.remove( { seventeen_ride_num : { $exists : false } } )
+db.bus.remove( { eighteen_ride_num : null } )
+db.bus.remove( { eighteen_ride_num : { $exists : false } } )
+db.bus.remove( { nineteen_ride_num : null } )
+db.bus.remove( { nineteen_ride_num : { $exists : false } } )
+db.bus.remove( { twenty_ride_num : null } )
+db.bus.remove( { twenty_ride_num : { $exists : false } } )
+db.bus.remove( { twenty_one_ride_num : null } )
+db.bus.remove( { twenty_one_ride_num : { $exists : false } } )
+db.bus.remove( { twenty_two_ride_num : null } )
+db.bus.remove( { twenty_two_ride_num : { $exists : false } } )
+db.bus.remove( { twenty_three_ride_num : null } )
+db.bus.remove( { twenty_three_ride_num : { $exists : false } } )
+
+5. 버스 데이터 쿼리(승차)
+1)시간
+db.bus.aggregate([
+    {"$group":
+             {
+                 "_id": "null",
+                 "midnight_ride_num": {"$avg": "$midnight_ride_num"},
+                 "one_ride_num": {"$avg": "$one_ride_num"},
+                 "two_ride_num": {"$avg": "$two_ride_num"},
+                 "three_ride_num": {"$avg": "$three_ride_num"},
+                 "four_ride_num": {"$avg": "$four_ride_num"},
+                 "five_ride_num": {"$avg": "$five_ride_num"},
+                 "six_ride_num": {"$avg": "$six_ride_num"},
+                 "seven_ride_num": {"$avg": "$seven_ride_num"},
+                 "eight_ride_num": {"$avg": "$eight_ride_num"},
+                 "nine_ride_num": {"$avg": "$nine_ride_num"},
+                 "ten_ride_num": {"$avg": "$ten_ride_num"},
+                 "eleven_ride_num": {"$avg": "$eleven_ride_num"},
+                 "twelve_ride_num": {"$avg": "$twelve_ride_num"},
+                 "thirteen_ride_num": {"$avg": "$thirteen_ride_num"},
+                 "fourteen_ride_num": {"$avg": "$fourteen_ride_num"},
+                 "fifteen_ride_num": {"$avg": "$fifteen_ride_num"},
+                 "sixteen_ride_num": {"$avg": "$sixteen_ride_num"},
+                 "seventeen_ride_num": {"$avg": "$seventeen_ride_num"},
+                 "eighteen_ride_num": {"$avg": "$eighteen_ride_num"},
+                 "nineteen_ride_num": {"$avg": "$nineteen_ride_num"},
+                 "twenty_ride_num": {"$avg": "$twenty_ride_num"},
+                 "twenty_one_ride_num": {"$avg": "$twenty_one_ride_num"},
+                 "twenty_two_ride_num": {"$avg": "$twenty_two_ride_num"},
+                 "twenty_three_ride_num": {"$avg": "$twenty_three_ridet_num"}
+             }
+    }
+])
+
+2)정류장별
+db.bus.aggregate([
+    {"$group":
+             {
+                 "_id": "$bus_sta_nm",
+                 "midnight_ride_num": {"$avg": "$midnight_ride_num"},
+                 "one_ride_num": {"$avg": "$one_ride_num"},
+                 "two_ride_num": {"$avg": "$two_ride_num"},
+                 "three_ride_num": {"$avg": "$three_ride_num"},
+                 "four_ride_num": {"$avg": "$four_ride_num"},
+                 "five_ride_num": {"$avg": "$five_ride_num"},
+                 "six_ride_num": {"$avg": "$six_ride_num"},
+                 "seven_ride_num": {"$avg": "$seven_ride_num"},
+                 "eight_ride_num": {"$avg": "$eight_ride_num"},
+                 "nine_ride_num": {"$avg": "$nine_ride_num"},
+                 "ten_ride_num": {"$avg": "$ten_ride_num"},
+                 "eleven_ride_num": {"$avg": "$eleven_ride_num"},
+                 "twelve_ride_num": {"$avg": "$twelve_ride_num"},
+                 "thirteen_ride_num": {"$avg": "$thirteen_ride_num"},
+                 "fourteen_ride_num": {"$avg": "$fourteen_ride_num"},
+                 "fifteen_ride_num": {"$avg": "$fifteen_ride_num"},
+                 "sixteen_ride_num": {"$avg": "$sixteen_ride_num"},
+                 "seventeen_ride_num": {"$avg": "$seventeen_ride_num"},
+                 "eighteen_ride_num": {"$avg": "$eighteen_ride_num"},
+                 "nineteen_ride_num": {"$avg": "$nineteen_ride_num"},
+                 "twenty_ride_num": {"$avg": "$twenty_ride_num"},
+                 "twenty_one_ride_num": {"$avg": "$twenty_one_ride_num"},
+                 "twenty_two_ride_num": {"$avg": "$twenty_two_ride_num"},
+                 "twenty_three_ride_num": {"$avg": "$twenty_three_ride_num"}
+             }
+    },
+    {"$project": {"_id": 1,
+                  "time_ride_num": {"$addToSet": ["$midnight_ride_num", "$one_ride_num", "$two_ride_num", "$three_ride_num",
+                                      "$four_ride_num", "$five_ride_num", "$six_ride_num", "$seven_ride_num",
+                                      "$eight_ride_num", "$nine_ride_num", "$ten_ride_num", "$eleven_ride_num",
+                                      "$twelve_ride_num", "$thirteen_ride_num", "$fourteen_ride_num",
+                                      "$fifteen_ride_num", "$sixteen_ride_num", "$seventeen_ride_num",
+                                      "$eighteen_ride_num", "$nineteen_ride_num", "$twenty_ride_num",
+                                      "$twenty_one_ride_num", "$twenty_two_ride_num", "$twenty_three_ride_num"]}}},
+    {"$sort": {"time_ride_num": -1}},
+    {"$limit": 5}
+
+])
